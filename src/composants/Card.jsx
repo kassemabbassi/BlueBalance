@@ -2,45 +2,96 @@ import React from 'react';
 
 const Card = ({ question, onAnswer, isAnswered, isCorrect, explanation, onNext, timeLeft }) => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      <div className="max-w-sm w-full bg-black p-6 rounded-lg shadow-[0_0_10px_5px_rgba(191,123,255,0.7)] transform transition-all duration-300 hover:scale-105">
-        <img src={question.image} alt="question" className="w-full h-48 object-cover rounded-lg shadow-md" />
-        <h2 className="text-xl font-semibold mt-4 text-center text-white">{question.question}</h2>
+    <div className="p-6">
+      <div className="relative backdrop-blur-sm transform transition-all duration-300">
+        {/* Image avec overlay gradient */}
+        <div className="relative h-48 sm:h-56 md:h-64 lg:h-72 overflow-hidden rounded-xl">
+          <img 
+            src={question.image} 
+            alt="question" 
+            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent" />
+        </div>
 
-        {/* Affichage des boutons Vrai/Faux */}
+        {/* Question */}
+        <div className="mt-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white text-center leading-relaxed">
+            {question.question}
+          </h2>
+        </div>
+
+        {/* Boutons de réponse */}
         {!isAnswered && timeLeft > 0 ? (
-          <div className="mt-6 flex justify-between gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-6">
             <button
               onClick={() => onAnswer(true)}
-              className="mt-10 py-4 px-8 text-sm font-bold text-purple-300 bg-purple-700 border-2 border-purple-300 rounded-full shadow-[0_0_4em_1em_rgba(191,123,255,0.781)] hover:text-purple-700 hover:bg-purple-300 hover:shadow-[0_0_4em_2em_rgba(191,123,255,0.781)] active:shadow-[0_0_2.5em_2em_rgba(191,123,255,0.781)] focus:outline-none transition-all duration-300 w-1/2"
+              className="group relative px-8 py-4 text-lg font-semibold rounded-full overflow-hidden transition-all duration-300
+                bg-gradient-to-r from-blue-400/20 to-blue-600/20 hover:from-blue-400/40 hover:to-blue-600/40
+                border border-blue-300/30 hover:border-blue-300/50
+                text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]"
             >
-              Vrai
+              <span className="relative z-10">Vrai</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-blue-400/30 to-blue-400/0 group-hover:opacity-100 opacity-0 transition-opacity duration-300" />
             </button>
             <button
               onClick={() => onAnswer(false)}
-              className="mt-10 py-4 px-8 text-sm font-bold text-purple-300 bg-purple-700 border-2 border-purple-300 rounded-full shadow-[0_0_4em_1em_rgba(191,123,255,0.781)] hover:text-purple-700 hover:bg-purple-300 hover:shadow-[0_0_4em_2em_rgba(191,123,255,0.781)] active:shadow-[0_0_2.5em_2em_rgba(191,123,255,0.781)] focus:outline-none transition-all duration-300 w-1/2"
+              className="group relative px-8 py-4 text-lg font-semibold rounded-full overflow-hidden transition-all duration-300
+                bg-gradient-to-r from-blue-400/20 to-blue-600/20 hover:from-blue-400/40 hover:to-blue-600/40
+                border border-blue-300/30 hover:border-blue-300/50
+                text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]"
             >
-              Faux
+              <span className="relative z-10">Faux</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-blue-400/30 to-blue-400/0 group-hover:opacity-100 opacity-0 transition-opacity duration-300" />
             </button>
           </div>
         ) : (
-          // Affichage de l'explication
-          <div className="mt-6 text-center">
-            <p className={`text-lg ${isCorrect ? 'text-green-600' : 'text-red-600'} font-semibold`}>
-              {isCorrect ? 'Correct!' : 'Incorrect!'}
-            </p>
-            <p className="mt-2 text-gray-200">{explanation}</p>
+          <div className="mt-8 space-y-6">
+            {/* Résultat */}
+            <div className="text-center space-y-4">
+              <p className={`text-2xl font-bold ${
+                isCorrect 
+                  ? 'text-green-400 animate-pulse' 
+                  : 'text-red-400 animate-pulse'
+              }`}>
+                {isCorrect ? 'Correct!' : 'Incorrect!'}
+              </p>
+              <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm">
+                <p className="text-blue-50 text-lg">{explanation}</p>
+              </div>
+            </div>
 
-            {/* Bouton pour passer à la question suivante */}
-            <button
-              onClick={onNext}
-              className="mt-4 py-2 px-6 text-sm font-bold text-purple-300 bg-purple-700 border-2 border-purple-300 rounded-full shadow-[0_0_4em_1em_rgba(191,123,255,0.781)] hover:text-purple-700 hover:bg-purple-300 hover:shadow-[0_0_4em_2em_rgba(191,123,255,0.781)] active:shadow-[0_0_2.5em_2em_rgba(191,123,255,0.781)] focus:outline-none transition-all duration-300"
-            >
-              Question suivante
-            </button>
+            {/* Bouton suivant */}
+            <div className="flex justify-center">
+              <button
+                onClick={onNext}
+                className="group relative px-8 py-4 text-lg font-semibold rounded-full overflow-hidden transition-all duration-300
+                  bg-gradient-to-r from-blue-500/30 to-blue-700/30 hover:from-blue-500/50 hover:to-blue-700/50
+                  border border-blue-300/30 hover:border-blue-300/50
+                  text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+              >
+                <span className="relative z-10">Question suivante</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/0 via-blue-400/30 to-blue-400/0 group-hover:opacity-100 opacity-0 transition-opacity duration-300" />
+              </button>
+            </div>
           </div>
         )}
+
+        {/* Effet de brillance sur les bords */}
+        <div className="absolute inset-0 rounded-xl pointer-events-none">
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 animate-shimmer" />
+        </div>
       </div>
+
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-shimmer {
+          animation: shimmer 2s infinite;
+        }
+      `}</style>
     </div>
   );
 };

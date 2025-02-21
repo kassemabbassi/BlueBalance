@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import MainPage from './composants/MainPage';
+
 import Quiz from './composants/Quiz';
 import NavBar from './composants/NavBar';
 import { BrowserRouter, Routes,Route } from 'react-router-dom';
